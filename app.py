@@ -16,24 +16,28 @@ def health():
 
 @app.route("/fixtures")
 def get_fixtures():
-    url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
+    url = "https://v3.football.api-sports.io/fixtures"
 
     querystring = {
-        "league": "39",   # English Premier League
+        "league": "39",   # Premier League
         "season": "2023"
     }
 
     headers = {
-        "X-RapidAPI-Key": FOOTBALL_API_KEY,
-        "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
+        "x-apisports-key": FOOTBALL_API_KEY
     }
 
     try:
-        response = requests.get(url, headers=headers, params=querystring, timeout=10)
+        response = requests.get(url, headers=headers, params=querystring)
         data = response.json()
         return jsonify(data)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route("/test-key")
+def test_key():
+    return {"key": FOOTBALL_API_KEY}
 
 
 if __name__ == "__main__":
